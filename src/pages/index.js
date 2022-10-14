@@ -1,6 +1,11 @@
 import * as React from "react";
 import styled from "styled-components";
 
+const Section = styled.section`
+  display: flex;
+  justify-content: flex-start;
+`;
+
 const GalleryBox = styled.div`
   margin-top: 100px;
   display: flex;
@@ -40,7 +45,27 @@ const GalleryItem = styled.div`
 
 const IndexPage = () => {
   return (
-    <section>
+    <Section>
+      <GalleryBox>
+        <GalleryItem
+          onClick={() => {
+            window.open("/magazine/september-2022.pdf");
+          }}
+        >
+          <img src="./thumbnails/thumb-1.png" />
+          <span className="title">July 2022</span>
+        </GalleryItem>
+      </GalleryBox>
+      <GalleryBox>
+        <GalleryItem
+          onClick={() => {
+            window.open("/magazine/september-2022.pdf");
+          }}
+        >
+          <img src="./thumbnails/thumb-1.png" />
+          <span className="title">August 2022</span>
+        </GalleryItem>
+      </GalleryBox>
       <GalleryBox>
         <GalleryItem
           onClick={() => {
@@ -51,7 +76,7 @@ const IndexPage = () => {
           <span className="title">September 2022</span>
         </GalleryItem>
       </GalleryBox>
-    </section>
+    </Section>
   );
 };
 

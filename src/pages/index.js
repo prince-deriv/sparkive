@@ -1,10 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-
-const Section = styled.section`
-  display: flex;
-  justify-content: flex-start;
-`;
 
 const GalleryBox = styled.div`
   margin-top: 100px;
@@ -44,39 +39,74 @@ const GalleryItem = styled.div`
 `;
 
 const IndexPage = () => {
+  const [new_magazine, setNewMagazine] = useState([]);
+
+  useEffect(() => {
+    const sparkMagazine = async () => {
+      await fetch(
+        "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/magazine"
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.length) {
+            const magazineDetails = [...result];
+            const data = magazineDetails.map(({ name, path }) => ({
+              name,
+              path,
+            }));
+
+            const months = [
+              "january",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "september",
+              "October",
+              "November",
+              "December",
+            ];
+
+            const filtereddata = data.filter((elem) => {
+              const [filtered_month, year] = elem.name.split("-");
+              if (
+                months.includes(filtered_month) &&
+                year.split(".")[0].length === 4
+              ) {
+                const month_year = filtered_month + `${"-"}` + year;
+                return elem.name === month_year;
+              }
+            });
+
+            setNewMagazine(filtereddata);
+          }
+        });
+    };
+    sparkMagazine();
+  }, []);
+
   return (
-    <Section>
+    <section>
       <GalleryBox>
-        <GalleryItem
-          onClick={() => {
-            window.open("/magazine/september-2022.pdf");
-          }}
-        >
-          <img src="./thumbnails/thumb-1.png" />
-          <span className="title">July 2022</span>
-        </GalleryItem>
+        {new_magazine.map(({ name, path }) => {
+          return (
+            <GalleryItem
+              onClick={() => {
+                window.open(path.replace("public", ""));
+              }}
+            >
+              <img src="./thumbnails/thumb-1.png" />
+              <span className="title">
+                {name.toUpperCase().replace("-", " ").split(".PDF")}
+              </span>
+            </GalleryItem>
+          );
+        })}
       </GalleryBox>
-      <GalleryBox>
-        <GalleryItem
-          onClick={() => {
-            window.open("/magazine/september-2022.pdf");
-          }}
-        >
-          <img src="./thumbnails/thumb-1.png" />
-          <span className="title">August 2022</span>
-        </GalleryItem>
-      </GalleryBox>
-      <GalleryBox>
-        <GalleryItem
-          onClick={() => {
-            window.open("/magazine/september-2022.pdf");
-          }}
-        >
-          <img src="./thumbnails/thumb-1.png" />
-          <span className="title">September 2022</span>
-        </GalleryItem>
-      </GalleryBox>
-    </Section>
+    </section>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const GalleryBox = styled.div`
@@ -40,7 +40,7 @@ const GalleryItem = styled.div`
 
 const IndexPage = () => {
   const [new_magazine, setNewMagazine] = useState([]);
-
+  const [thumbnail_image, setThumbnailImage] = useState([]);
   useEffect(() => {
     const sparkMagazine = async () => {
       await fetch(
@@ -56,7 +56,7 @@ const IndexPage = () => {
             }));
 
             const months = [
-              "january",
+              "January",
               "February",
               "March",
               "April",
@@ -70,7 +70,7 @@ const IndexPage = () => {
               "December",
             ];
 
-            const filtereddata = data.filter((elem) => {
+            const filtered_data = data.filter((elem) => {
               const [filtered_month, year] = elem.name.split("-");
               if (
                 months.includes(filtered_month) &&
@@ -81,11 +81,26 @@ const IndexPage = () => {
               }
             });
 
-            setNewMagazine(filtereddata);
+            setNewMagazine(filtered_data);
           }
         });
     };
     sparkMagazine();
+  }, []);
+  useEffect(() => {
+    const sparkMagazineImage = async () => {
+      await fetch(
+        "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/thumbnails"
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.length) {
+            const thumbnailImages = [...result];
+            setThumbnailImage(thumbnailImages);
+          }
+        });
+    };
+    sparkMagazineImage();
   }, []);
 
   return (
@@ -98,7 +113,10 @@ const IndexPage = () => {
                 window.open(path.replace("public", ""));
               }}
             >
-              <img src="./thumbnails/thumb-1.png" />
+              {thumbnail_image.map(({ name, path }) => {
+                return <img src={path.replace("public", ".")} />;
+              })}
+
               <span className="title">
                 {name.toUpperCase().replace("-", " ").split(".PDF")}
               </span>

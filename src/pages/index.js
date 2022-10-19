@@ -85,9 +85,6 @@ const IndexPage = () => {
           }
         });
     };
-    sparkMagazine();
-  }, []);
-  useEffect(() => {
     const sparkMagazineImage = async () => {
       await fetch(
         "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/thumbnails"
@@ -101,6 +98,7 @@ const IndexPage = () => {
         });
     };
     sparkMagazineImage();
+    sparkMagazine();
   }, []);
 
   return (

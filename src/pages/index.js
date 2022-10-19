@@ -17,7 +17,7 @@ const GalleryItem = styled.div`
   box-shadow: #aaa 1px 1px 12px;
   cursor: pointer;
   transition: 0.5s ease-in all;
-
+  margin-right: 90px;
   &:hover {
     transform: scale(1.1);
   }
@@ -41,6 +41,21 @@ const GalleryItem = styled.div`
 const IndexPage = () => {
   const [new_magazine, setNewMagazine] = useState([]);
   const [thumbnail_image, setThumbnailImage] = useState([]);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   useEffect(() => {
     const sparkMagazine = async () => {
       await fetch(
@@ -54,21 +69,6 @@ const IndexPage = () => {
               name,
               path,
             }));
-
-            const months = [
-              "January",
-              "February",
-              "March",
-              "April",
-              "May",
-              "June",
-              "July",
-              "August",
-              "September",
-              "October",
-              "November",
-              "December",
-            ];
 
             const filtered_data = data.filter((elem) => {
               const [filtered_month, year] = elem.name.split("-");
@@ -87,6 +87,7 @@ const IndexPage = () => {
           }
         });
     };
+
     const sparkMagazineImage = async () => {
       await fetch(
         "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/thumbnails"
@@ -95,7 +96,23 @@ const IndexPage = () => {
         .then((result) => {
           if (result.length) {
             const thumbnailImages = [...result];
-            setThumbnailImage(thumbnailImages);
+            const image_data = thumbnailImages.map(({ name, path }) => ({
+              name,
+              path,
+            }));
+            const image_filtered_data = image_data.filter((elem) => {
+              const [filtered_month, year] = elem.name.split("-");
+              if (
+                months.some(
+                  (item) => item.toLowerCase() === filtered_month.toLowerCase()
+                ) &&
+                year.split(".")[0].length === 4
+              ) {
+                const month_year = filtered_month + `${"-"}` + year;
+                return elem.name === month_year;
+              }
+            });
+            setThumbnailImage(image_filtered_data);
           }
         });
     };
@@ -115,10 +132,16 @@ const IndexPage = () => {
                 window.open(path.replace("public", ""));
               }}
             >
-              {thumbnail_image.map(({ name, path }) => {
-                return <img src={path.replace("public", ".")} />;
-              })}
-
+              {thumbnail_image.length > 0 ? (
+                thumbnail_image.map(({ name, path }) => {
+                  return <img src={path.replace("public", ".")} />;
+                })
+              ) : (
+                <img
+                  src="./thumbnails/Default_Image_Thumbnail.png"
+                  placeholder="no image to display"
+                />
+              )}
               <span className="title">
                 {new_name.replace("-", " ").split(".pdf")}
               </span>

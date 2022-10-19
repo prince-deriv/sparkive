@@ -64,7 +64,7 @@ const IndexPage = () => {
               "June",
               "July",
               "August",
-              "september",
+              "September",
               "October",
               "November",
               "December",
@@ -73,7 +73,9 @@ const IndexPage = () => {
             const filtered_data = data.filter((elem) => {
               const [filtered_month, year] = elem.name.split("-");
               if (
-                months.includes(filtered_month) &&
+                months.some(
+                  (item) => item.toLowerCase() === filtered_month.toLowerCase()
+                ) &&
                 year.split(".")[0].length === 4
               ) {
                 const month_year = filtered_month + `${"-"}` + year;
@@ -105,6 +107,8 @@ const IndexPage = () => {
     <section>
       <GalleryBox>
         {new_magazine.map(({ name, path }) => {
+          const new_name = name.charAt(0).toUpperCase() + name.slice(1);
+
           return (
             <GalleryItem
               onClick={() => {
@@ -116,7 +120,7 @@ const IndexPage = () => {
               })}
 
               <span className="title">
-                {name.toUpperCase().replace("-", " ").split(".PDF")}
+                {new_name.replace("-", " ").split(".pdf")}
               </span>
             </GalleryItem>
           );

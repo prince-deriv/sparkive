@@ -55,6 +55,7 @@ const IndexPage = () => {
     "November",
     "December",
   ];
+  const domain = "https://sparkchive.vercel.app/";
 
   useEffect(() => {
     const sparkMagazine = async () => {
@@ -129,7 +130,7 @@ const IndexPage = () => {
           return (
             <GalleryItem
               onClick={() => {
-                window.open(path.replace("public", ""));
+                window.open(domain + path.replace("public", ""));
               }}
             >
               {thumbnail_image.length > 0 ? (

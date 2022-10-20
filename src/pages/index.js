@@ -139,7 +139,7 @@ const IndexPage = () => {
                 })
               ) : (
                 <img
-                  src="./thumbnails/Default_Image_Thumbnail.png"
+                  src="./thumbnails/default_image_thumbnail.png"
                   placeholder="no image to display"
                 />
               )}

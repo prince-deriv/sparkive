@@ -4,9 +4,6 @@ import styled from "styled-components";
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: auto auto auto;
-  background-color: #0e0e0e;
-  padding: 10px;
-  height: 100vh;
 `;
 const GalleryBox = styled.div`
   margin-top: 100px;
@@ -16,8 +13,6 @@ const GalleryBox = styled.div`
 `;
 
 const GalleryItem = styled.div`
-  padding: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.8);
   position: relative;
   display: flex;
   width: 205px;

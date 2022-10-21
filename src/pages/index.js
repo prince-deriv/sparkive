@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: #0e0e0e;
+  padding: 10px;
+  height: 100vh;
+`;
 const GalleryBox = styled.div`
   margin-top: 100px;
   display: flex;
@@ -9,6 +16,8 @@ const GalleryBox = styled.div`
 `;
 
 const GalleryItem = styled.div`
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.8);
   position: relative;
   display: flex;
   width: 205px;
@@ -41,6 +50,8 @@ const GalleryItem = styled.div`
 const IndexPage = () => {
   const [new_magazine, setNewMagazine] = useState([]);
   const [thumbnail_image, setThumbnailImage] = useState([]);
+  // const [image_name, setImageName] = useState([]);
+
   const months = [
     "January",
     "February",
@@ -97,59 +108,61 @@ const IndexPage = () => {
         .then((result) => {
           if (result.length) {
             const thumbnailImages = [...result];
-            const image_data = thumbnailImages.map(({ name, path }) => ({
-              name,
-              path,
-            }));
-            const image_filtered_data = image_data.filter((elem) => {
-              const [filtered_month, year] = elem.name.split("-");
-              if (
-                months.some(
-                  (item) => item.toLowerCase() === filtered_month.toLowerCase()
-                ) &&
-                year.split(".")[0].length === 4
-              ) {
-                const month_year = filtered_month + `${"-"}` + year;
-                return elem.name === month_year;
-              }
-            });
-            setThumbnailImage(image_filtered_data);
+            const image_data = thumbnailImages.map(
+              ({ name, path, download_url }) => ({
+                name,
+                path,
+                download_url,
+              })
+            );
+
+            setThumbnailImage(image_data);
           }
         });
     };
+
     sparkMagazineImage();
     sparkMagazine();
   }, []);
 
+  const filtered_image = (name) => {
+    let image = "./thumbnails/default_image_thumbnail.png";
+    thumbnail_image
+      .filter((item) => {
+        const filtered_month = item.name.split("-")[0];
+        return name.toLowerCase() === filtered_month.toLowerCase();
+      })
+      .map((item) => {
+        image = item.download_url;
+      });
+
+    return <img src={image} />;
+  };
+
   return (
     <section>
-      <GalleryBox>
-        {new_magazine.map(({ name, path }) => {
-          const new_name = name.charAt(0).toUpperCase() + name.slice(1);
+      <GridContainer>
+        <GalleryBox>
+          {new_magazine.map(({ name, path }) => {
+            const new_name = name.charAt(0).toUpperCase() + name.slice(1);
 
-          return (
-            <GalleryItem
-              onClick={() => {
-                window.open(domain + path.replace("public", ""));
-              }}
-            >
-              {thumbnail_image.length > 0 ? (
-                thumbnail_image.map(({ name, path }) => {
-                  return <img src={path.replace("public", ".")} />;
-                })
-              ) : (
-                <img
-                  src="./thumbnails/default_image_thumbnail.png"
-                  placeholder="no image to display"
-                />
-              )}
-              <span className="title">
-                {new_name.replace("-", " ").split(".pdf")}
-              </span>
-            </GalleryItem>
-          );
-        })}
-      </GalleryBox>
+            return (
+              <>
+                <GalleryItem
+                  onClick={() => {
+                    window.open(domain + path.replace("public", ""));
+                  }}
+                >
+                  {filtered_image(name.split("-")[0])}
+                  <span className="title">
+                    {new_name.replace("-", " ").split(".pdf")}
+                  </span>
+                </GalleryItem>
+              </>
+            );
+          })}
+        </GalleryBox>
+      </GridContainer>
     </section>
   );
 };

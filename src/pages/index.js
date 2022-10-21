@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto;
-`;
 const GalleryBox = styled.div`
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto;
+  column-gap: 50px;
+  padding: 10px;
   margin-top: 100px;
-  display: flex;
   width: 100%;
   justify-content: center;
 `;
@@ -21,7 +20,8 @@ const GalleryItem = styled.div`
   box-shadow: #aaa 1px 1px 12px;
   cursor: pointer;
   transition: 0.5s ease-in all;
-  margin-right: 90px;
+  margin: 30px;
+
   &:hover {
     transform: scale(1.1);
   }
@@ -45,7 +45,6 @@ const GalleryItem = styled.div`
 const IndexPage = () => {
   const [new_magazine, setNewMagazine] = useState([]);
   const [thumbnail_image, setThumbnailImage] = useState([]);
-  // const [image_name, setImageName] = useState([]);
 
   const months = [
     "January",
@@ -136,28 +135,26 @@ const IndexPage = () => {
 
   return (
     <section>
-      <GridContainer>
-        <GalleryBox>
-          {new_magazine.map(({ name, path }) => {
-            const new_name = name.charAt(0).toUpperCase() + name.slice(1);
+      <GalleryBox>
+        {new_magazine.map(({ name, path }) => {
+          const new_name = name.charAt(0).toUpperCase() + name.slice(1);
 
-            return (
-              <>
-                <GalleryItem
-                  onClick={() => {
-                    window.open(domain + path.replace("public", ""));
-                  }}
-                >
-                  {filtered_image(name.split("-")[0])}
-                  <span className="title">
-                    {new_name.replace("-", " ").split(".pdf")}
-                  </span>
-                </GalleryItem>
-              </>
-            );
-          })}
-        </GalleryBox>
-      </GridContainer>
+          return (
+            <>
+              <GalleryItem
+                onClick={() => {
+                  window.open(domain + path.replace("public", ""));
+                }}
+              >
+                {filtered_image(name.split("-")[0])}
+                <span className="title">
+                  {new_name.replace("-", " ").split(".pdf")}
+                </span>
+              </GalleryItem>
+            </>
+          );
+        })}
+      </GalleryBox>
     </section>
   );
 };

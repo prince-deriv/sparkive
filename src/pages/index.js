@@ -103,7 +103,7 @@ const IndexPage = () => {
               return obj;
             });
             var sorted_data = new_sorted_array.sort(
-              (a, b) => new Date(a.name) - new Date(b.name)
+              (a, b) => new Date(b.name) - new Date(a.name)
             );
 
             setNewMagazine(sorted_data);

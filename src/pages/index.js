@@ -100,7 +100,7 @@ const IndexPage = () => {
                 ) &&
                 year.split(".")[0].length === 4
               ) {
-                const month_year = filtered_month + `${"-"}` + year;
+                const month_year = `${filtered_month}-${year}`;
                 return elem.name === month_year;
               }
             });

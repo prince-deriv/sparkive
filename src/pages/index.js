@@ -7,12 +7,18 @@ const section = styled.div`
 
 const GalleryBox = styled.div`
   display: inline-grid;
-  grid-template-columns: auto auto auto auto;
   column-gap: 50px;
   padding: 10px;
   margin-top: 100px;
   width: 100%;
   justify-content: center;
+
+  @media only screen and (min-width: 768px) and (max-width: 1281px) {
+    grid-template-columns: auto auto;
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: auto auto auto auto;
+  }
 `;
 
 const GalleryItem = styled.div`
@@ -50,6 +56,12 @@ const IndexPage = () => {
   const [new_magazine, setNewMagazine] = useState([]);
   const [thumbnail_image, setThumbnailImage] = useState([]);
 
+  const MAGAZINE_URL =
+    "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/magazine";
+
+  const THUMBNAIL_URL =
+    "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/thumbnails";
+
   const months = [
     "January",
     "February",
@@ -68,9 +80,7 @@ const IndexPage = () => {
 
   useEffect(() => {
     const sparkMagazine = async () => {
-      await fetch(
-        "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/magazine"
-      )
+      await fetch(MAGAZINE_URL)
         .then((res) => res.json())
         .then((result) => {
           if (result.length) {
@@ -112,9 +122,7 @@ const IndexPage = () => {
     };
 
     const sparkMagazineImage = async () => {
-      await fetch(
-        "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/thumbnails"
-      )
+      await fetch(THUMBNAIL_URL)
         .then((res) => res.json())
         .then((result) => {
           if (result.length) {
@@ -159,18 +167,16 @@ const IndexPage = () => {
           const new_name = name.charAt(0).toUpperCase() + name.slice(1);
 
           return (
-            <>
-              <GalleryItem
-                onClick={() => {
-                  window.open(domain + path.replace("public", ""));
-                }}
-              >
-                {filtered_image(name.split("-")[0])}
-                <span className="title">
-                  {new_name.replace("-", " ").split(".pdf")}
-                </span>
-              </GalleryItem>
-            </>
+            <GalleryItem
+              onClick={() => {
+                window.open(domain + path.replace("public", ""));
+              }}
+            >
+              {filtered_image(name.split("-")[0])}
+              <span className="title">
+                {new_name.replace("-", " ").split(".pdf")}
+              </span>
+            </GalleryItem>
           );
         })}
       </GalleryBox>

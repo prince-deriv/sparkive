@@ -62,6 +62,8 @@ const IndexPage = () => {
   const THUMBNAIL_URL =
     "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/thumbnails";
 
+  const THUMBNAIL_PLACEHOLDER = "./thumbnails/default_image_thumbnail.png";
+
   const months = [
     "January",
     "February",
@@ -146,7 +148,7 @@ const IndexPage = () => {
 
   const filtered_image = (name) => {
     const new_name = name.split(" ")[0];
-    let image = "./thumbnails/default_image_thumbnail.png";
+    let image = THUMBNAIL_PLACEHOLDER;
 
     thumbnail_image
       .filter((item) => {

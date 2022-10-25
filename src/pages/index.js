@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+const section = styled.div`
+  overflow-x: hidden;
+`;
+
 const GalleryBox = styled.div`
   display: inline-grid;
   grid-template-columns: auto auto auto auto;
@@ -70,8 +74,8 @@ const IndexPage = () => {
         .then((res) => res.json())
         .then((result) => {
           if (result.length) {
-            const magazineDetails = [...result];
-            const data = magazineDetails.map(({ name, path }) => ({
+            const magazine_details = [...result];
+            const data = magazine_details.map(({ name, path }) => ({
               name,
               path,
             }));
@@ -89,7 +93,20 @@ const IndexPage = () => {
               }
             });
 
-            setNewMagazine(filtered_data);
+            const new_sorted_array = filtered_data.map((obj) => {
+              if (obj.name.includes("pdf")) {
+                return {
+                  ...obj,
+                  name: obj.name.split(".pdf")[0].replace("-", " "),
+                };
+              }
+              return obj;
+            });
+            var sorted_data = new_sorted_array.sort(
+              (a, b) => new Date(a.name) - new Date(b.name)
+            );
+
+            setNewMagazine(sorted_data);
           }
         });
     };
@@ -120,11 +137,13 @@ const IndexPage = () => {
   }, []);
 
   const filtered_image = (name) => {
+    const new_name = name.split(" ")[0];
     let image = "./thumbnails/default_image_thumbnail.png";
+
     thumbnail_image
       .filter((item) => {
         const filtered_month = item.name.split("-")[0];
-        return name.toLowerCase() === filtered_month.toLowerCase();
+        return new_name.toLowerCase() === filtered_month.toLowerCase();
       })
       .map((item) => {
         image = item.download_url;

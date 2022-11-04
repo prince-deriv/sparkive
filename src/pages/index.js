@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import moment from "moment";
+
 const section = styled.div`
   overflow-x: hidden;
 `;
@@ -114,10 +115,10 @@ const IndexPage = () => {
               }
               return obj;
             });
-            var sorted_data = new_sorted_array.sort((a, b) =>
-              new moment(a.name) > new moment(b.name) ? -1 : 1
-            );
 
+            var sorted_data = new_sorted_array.sort(
+              (a, b) => new Date("1 " + b.name) - new Date("1 " + a.name)
+            );
             setNewMagazine(sorted_data);
           }
         });

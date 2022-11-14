@@ -114,10 +114,10 @@ const IndexPage = () => {
               }
               return obj;
             });
-            var sorted_data = new_sorted_array.sort(
-              (a, b) => new Date(b.name) - new Date(a.name)
-            );
 
+            var sorted_data = new_sorted_array.sort(
+              (a, b) => new Date("1 " + b.name) - new Date("1 " + a.name)
+            );
             setNewMagazine(sorted_data);
           }
         });

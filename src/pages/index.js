@@ -6,7 +6,9 @@ const section = styled.div`
 `;
 
 const GalleryBox = styled.div`
-  display: inline-grid;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
   column-gap: 50px;
   padding: 10px;
   margin-top: 100px;
@@ -22,6 +24,7 @@ const GalleryBox = styled.div`
 `;
 
 const GalleryItem = styled.div`
+  flex: none;
   position: relative;
   display: flex;
   width: 205px;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Logo from "../images/sparkive.png";
 
 const section = styled.div`
   overflow-x: hidden;
@@ -20,6 +21,16 @@ const GalleryBox = styled.div`
   }
   @media (min-width: 1024px) {
     grid-template-columns: auto auto auto auto;
+  }
+`;
+
+const LogoWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin: 100px 250px;
+
+  @media (max-width: 700px) {
+    justify-content: center;
   }
 `;
 
@@ -167,6 +178,10 @@ const IndexPage = () => {
 
   return (
     <section>
+      <LogoWrapper>
+        <img src={Logo} alt="logo" width="300px" />
+      </LogoWrapper>
+
       <GalleryBox>
         {new_magazine.map(({ name, path }) => {
           const new_name = name.charAt(0).toUpperCase() + name.slice(1);

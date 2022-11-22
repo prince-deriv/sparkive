@@ -31,6 +31,7 @@ const LogoWrapper = styled.div`
 
   @media (max-width: 700px) {
     justify-content: center;
+    margin: 20px 0;
   }
 `;
 

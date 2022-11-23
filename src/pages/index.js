@@ -2,37 +2,30 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../images/sparkive.png";
 
-const section = styled.div`
-  overflow-x: hidden;
+const Section = styled.div`
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding-top: 100px;
+  align-items: center;
+  padding: 30px;
+  @media (max-width: 768px) {
+  }
 `;
 
 const GalleryBox = styled.div`
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap;
-  column-gap: 50px;
-  padding: 10px;
   margin-top: 100px;
   width: 100%;
   justify-content: center;
-
-  @media only screen and (min-width: 768px) and (max-width: 1281px) {
-    grid-template-columns: auto auto;
-  }
-  @media (min-width: 1024px) {
-    grid-template-columns: auto auto auto auto;
-  }
 `;
 
 const LogoWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin: 100px 250px;
-
-  @media (max-width: 700px) {
-    justify-content: center;
-    margin: 20px 0;
-  }
 `;
 
 const GalleryItem = styled.div`
@@ -130,7 +123,7 @@ const IndexPage = () => {
               return obj;
             });
 
-            var sorted_data = new_sorted_array.sort(
+            const sorted_data = new_sorted_array.sort(
               (a, b) => new Date("1 " + b.name) - new Date("1 " + a.name)
             );
             setNewMagazine(sorted_data);
@@ -178,7 +171,7 @@ const IndexPage = () => {
   };
 
   return (
-    <section>
+    <Section>
       <LogoWrapper>
         <img src={Logo} alt="logo" width="300px" />
       </LogoWrapper>
@@ -201,7 +194,7 @@ const IndexPage = () => {
           );
         })}
       </GalleryBox>
-    </section>
+    </Section>
   );
 };
 

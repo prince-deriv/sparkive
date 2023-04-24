@@ -86,7 +86,7 @@ const IndexPage = () => {
     "November",
     "December",
   ];
-  const domain = "https://sparkchive.vercel.app/";
+  const domain = "https://sparkchive.vercel.app";
 
   useEffect(() => {
     const sparkMagazine = async () => {

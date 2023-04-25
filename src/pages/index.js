@@ -86,8 +86,9 @@ const IndexPage = () => {
     "November",
     "December",
   ];
-  const domain = "https://sparkchive.vercel.app";
-
+  const domain =
+    "https://raw.githubusercontent.com/prince-deriv/sparkive/master/public/";
+  
   useEffect(() => {
     const sparkMagazine = async () => {
       await fetch(MAGAZINE_URL)

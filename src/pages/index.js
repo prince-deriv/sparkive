@@ -65,10 +65,10 @@ const IndexPage = () => {
   const [thumbnail_image, setThumbnailImage] = useState([]);
 
   const MAGAZINE_URL =
-    "https://api.github.com/repos/michael-deriv/deriv-static/contents/public/magazine";
+    "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/magazine";
 
   const THUMBNAIL_URL =
-    "https://api.github.com/repos/michael-deriv/deriv-static/contents/public/thumbnails";
+    "https://api.github.com/repos/prince-deriv/deriv-static/contents/public/thumbnails";
 
   const THUMBNAIL_PLACEHOLDER = "./thumbnails/default_image_thumbnail.png";
 

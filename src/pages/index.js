@@ -145,10 +145,6 @@ const IndexPage = () => {
               })
             );
 
-            console.log({
-              image_data,
-            });
-
             setThumbnailImage(image_data);
           }
         });

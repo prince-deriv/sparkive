@@ -145,6 +145,10 @@ const IndexPage = () => {
               })
             );
 
+            console.log({
+              image_data,
+            });
+
             setThumbnailImage(image_data);
           }
         });
@@ -155,19 +159,19 @@ const IndexPage = () => {
   }, []);
 
   const filtered_image = (name) => {
-    const new_name = name.split(" ")[0];
-    let image = THUMBNAIL_PLACEHOLDER;
+    let placeholder_image = THUMBNAIL_PLACEHOLDER;
 
-    thumbnail_image
-      .filter((item) => {
-        const filtered_month = item.name.split("-")[0];
-        return new_name.toLowerCase() === filtered_month.toLowerCase();
-      })
-      .map((item) => {
-        image = item.download_url;
-      });
+    let final_image = thumbnail_image.find(
+      ({ name: img_name }) =>
+        img_name.toLowerCase().split(".")[0] ===
+        name.split(" ").join("-").toLowerCase()
+    );
 
-    return <img src={image} />;
+    if (!final_image) {
+      final_image = placeholder_image;
+    }
+
+    return <img src={final_image.download_url} />;
   };
 
   return (
@@ -182,11 +186,12 @@ const IndexPage = () => {
 
           return (
             <GalleryItem
+              key={`${name}-${path}-item`}
               onClick={() => {
                 window.open(domain + path.replace("public", ""));
               }}
             >
-              {filtered_image(name.split("-")[0])}
+              {filtered_image(name)}
               <span className="title">
                 {new_name.replace("-", " ").split(".pdf")}
               </span>
